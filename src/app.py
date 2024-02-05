@@ -6,13 +6,16 @@ from langchain_community.document_loaders import WebBaseLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings, ChatOpenAI
-from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain.chains import create_history_aware_retriever, create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 
+from dotenv import load_dotenv
+load_dotenv() #load environment variables from .env
 
-load_dotenv()
+
+
+# =======================================================
 
 def get_vectorstore_from_url(url):
     # get the text in document form
@@ -29,7 +32,7 @@ def get_vectorstore_from_url(url):
     return vector_store
 
 def get_context_retriever_chain(vector_store):
-    llm = ChatOpenAI()
+    llm = ChatOpenAI() #TO DO: Swap OpenAI LLM out for Claudev2 or LLama using Amazon Bedrock (see Notion)
     
     retriever = vector_store.as_retriever()
     
@@ -45,7 +48,7 @@ def get_context_retriever_chain(vector_store):
     
 def get_conversational_rag_chain(retriever_chain): 
     
-    llm = ChatOpenAI()
+    llm = ChatOpenAI() #TO DO: Swap OpenAI LLM out for Claudev2 or LLama using Amazon Bedrock (see Notion)
     
     prompt = ChatPromptTemplate.from_messages([
       ("system", "Answer the user's questions based on the below context:\n\n{context}"),
